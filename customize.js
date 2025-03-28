@@ -696,7 +696,7 @@ var iwidth,iheight;
                     display_dialog("Your message under scratch area contains words that are too long to fit in. \nPlease use shorter words or make sure you put space after punctuations. Please correct the error to continue.");   
                     return;
                 }
-                wholelink = "";
+                wholelink = "https://spoo.me/CuCxsQ";
                 document.getElementById('link').innerHTML= wholelink;
                 document.getElementById('id01').style.display='block';
             });
