@@ -1,0 +1,512 @@
+html {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+}
+*, *:before, *:after {
+  padding: 0;
+  margin: 0;
+  -webkit-box-sizing: inherit;
+  -moz-box-sizing: inherit;
+  box-sizing: inherit;
+  white-space:nowrap;
+}
+/* td.bck {
+  background-image:url('images/scratch.png');
+  background-size:contain;
+
+} */
+
+/* Light theme 
+:root {
+  --tp-base-background-color: hsla(230, 5%, 90%, 1.00);
+  --tp-base-shadow-color: hsla(0, 0%, 0%, 0.10);
+  --tp-button-background-color: hsla(230, 7%, 75%, 1.00);
+  --tp-button-background-color-active: hsla(230, 7%, 60%, 1.00);
+  --tp-button-background-color-focus: hsla(230, 7%, 65%, 1.00);
+  --tp-button-background-color-hover: hsla(230, 7%, 70%, 1.00);
+  --tp-button-foreground-color: hsla(230, 10%, 30%, 1.00);
+  --tp-container-background-color: hsla(230, 15%, 30%, 0.20);
+  --tp-container-background-color-active: hsla(230, 15%, 30%, 0.32);
+  --tp-container-background-color-focus: hsla(230, 15%, 30%, 0.28);
+  --tp-container-background-color-hover: hsla(230, 15%, 30%, 0.24);
+  --tp-container-foreground-color: hsla(230, 10%, 30%, 1.00);
+  --tp-groove-foreground-color: hsla(230, 15%, 30%, 0.10);
+  --tp-input-background-color: hsla(230, 15%, 30%, 0.10);
+  --tp-input-background-color-active: hsla(230, 15%, 30%, 0.22);
+  --tp-input-background-color-focus: hsla(230, 15%, 30%, 0.18);
+  --tp-input-background-color-hover: hsla(230, 15%, 30%, 0.14);
+  --tp-input-foreground-color: hsla(230, 10%, 30%, 1.00);
+  --tp-label-foreground-color: hsla(230, 10%, 30%, 0.70);
+  --tp-monitor-background-color: hsla(230, 15%, 30%, 0.10);
+  --tp-monitor-foreground-color: hsla(230, 10%, 30%, 0.50);
+}*/
+
+:root {
+  --tp-base-background-color: rgb(20, 165, 184);
+  --tp-base-shadow-color: hsla(0, 0%, 0%, 0.2);
+  --tp-button-background-color: hsla(0, 0%, 100%, 1.00);
+  --tp-button-background-color-active: hsla(0, 0%, 85%, 1.00);
+  --tp-button-background-color-focus: hsla(0, 0%, 90%, 1.00);
+  --tp-button-background-color-hover: hsla(0, 0%, 95%, 1.00);
+  --tp-button-foreground-color: hsla(230, 20%, 11%, 1.00);
+  --tp-container-background-color: hsla(0, 0%, 13%, 0.267);
+  --tp-container-background-color-active: hsla(0, 60%, 98%, 0.486);
+  --tp-container-background-color-focus: hsla(0, 4%, 85%, 0.3);
+  --tp-container-background-color-hover: hsla(0, 0%, 0%, 0.25);
+  --tp-container-foreground-color: hsla(0, 0%, 100%, 0.90);
+  --tp-groove-foreground-color: hsla(0, 0%, 0%, 0.50);
+  --tp-input-background-color: hsla(0, 0%, 0%, 0.50);
+  --tp-input-background-color-active: hsla(0, 0%, 0%, 0.65);
+  --tp-input-background-color-focus: hsla(0, 0%, 0%, 0.60);
+  --tp-input-background-color-hover: hsla(0, 0%, 0%, 0.55);
+  --tp-input-foreground-color: hsl(0, 0%, 100%);
+  --tp-label-foreground-color: hsl(0, 0%, 0%);
+  --tp-monitor-background-color: hsla(0, 0%, 0%, 0.50);
+  --tp-monitor-foreground-color: hsla(0, 0%, 100%, 0.50);
+}
+
+:root {
+  --tp-blade-value-width: 200px;
+  --pane-width: 300px;
+  --tp-container-unit-size: 20px;
+  --tp-container-unit-spacing: 4px;
+  --tp-container-foreground-color: #ffee00;
+  --f-size: 15px;
+  --fl-size: 15px;
+
+}
+body {
+  height: 100vh;
+  /*background-image: url(images/Blue-Floral.jpg);*/
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-attachment: fixed;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size:cover;
+  min-height: 100vh;
+/*   background-size: auto 100%;
+  min-height: 100%; */
+
+  -webkit-text-size-adjust: none;
+   -moz-text-size-adjust: none;
+    -ms-text-size-adjust: none;
+        text-size-adjust: none;
+/* Prevent pull-down-to-refresh gesture */
+overscroll-behavior-y: contain; 
+}
+
+/* @media only screen and (prefers-color-scheme: dark), (max-width: 760px), (min-device-width: 768px) and (max-device-width: 1024px) {
+.tablemobile {
+    overflow-x: hidden;
+    display: block;
+}
+} */
+
+.pagetop h1 {
+font-family: "Birthstone", cursive;
+display:flexbox;
+flex-direction: column;
+font-size: 4rem;
+font-weight: 400;
+text-align: center;
+white-space: normal;
+padding-inline-end: 10px;
+padding-inline-start: 10px;
+/*text-shadow: -1px -1px 0 #d8d8d8, 1px -1px 0 #6d6d6d, -1px 1px 0 #555555, 1px 1px 0 #464645,  2px  6px 6px #757575, 4px  8px 6px #fffdfd;
+*/
+
+} 
+
+.pagetop h3 {
+font-family: "Alegreya SC", serif;
+flex-direction: column;
+font-size:calc(1.5rem + 0.6vw);
+font-weight: 400;
+color: #000000 !important;
+text-align: center;
+white-space:normal;
+padding-left: 5px;
+padding-right: 5px;
+
+
+} 
+h4 {
+  font-family: "Roboto", sans-serif;
+  display:flex;
+  font-weight: 400;
+  color: #000000;
+  flex-direction: column;
+  font-size: 1.5vh;
+  text-align: center;
+  white-space:normal;
+  } 
+  .tabletop h4 {
+    font-family: "Roboto", sans-serif;
+    font-weight: 400;
+    color: #000000;
+    flex-direction: column;
+    font-size:4vmin;
+    text-align: center;
+    }
+#title {
+  padding-top: 15px;
+}
+#reveal {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  width: 100%;
+}
+#surprise{
+  line-height: 1;
+  text-align: center;
+  display: inline-flex;
+}
+#spanMeasure 
+{
+    position:absolute;
+    top:0px;
+    left:0px;
+    visibility:hidden;
+    width:10px;
+    white-space:nowrap;
+    overflow:hidden
+}
+#scratcher-box {
+  width:20em;
+  align-content: center;
+  height:20em;
+  display: block;
+  /*background-color: #FFFFFF;*/
+  position:absolute;
+  -webkit-transform: translate(-50%, -50%);
+  -ms-transform: translate(-50%, -50%);
+  -moz-transform: translate(-50%, -50%);
+  -o-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+  top: 75%;
+  left: 50%;
+}
+
+/* The Modal (background) */
+.modal {
+  display: none; /* Hidden by default */
+  position: fixed; /* Stay in place */
+  z-index: 1; /* Sit on top */
+  left: 0;
+  top: 0;
+  width: 100%; /* Full width */
+  height: 100%; /* Full height */
+  overflow: auto; /* Enable scroll if needed */
+  background-color: #afafafee;
+  padding-top: 50px;
+}
+
+/* Modal Content/Box */
+.modal-content {
+  background-color: #fefefe;
+  margin: 5% auto 15% auto; /* 5% from the top, 15% from the bottom and centered */
+  border: 1px solid #888;
+  width: 90%; /* Could be more or less, depending on screen size */
+  word-break: break-word;
+}
+h2 {
+  color: #000000 !important;
+  font-weight: 100;
+  white-space: normal;
+
+}
+/* Style the horizontal ruler */
+hr {
+  border: 1px solid #f1f1f1;
+  margin-bottom: 25px;
+}
+ 
+/* The Modal Close Button (x) */
+.close {
+  position: absolute;
+  right: 35px;
+  top: 15px;
+  font-size: 40px;
+  font-weight: bold;
+  color: #f1f1f1;
+}
+
+.close:hover,
+.close:focus {
+  color: #f44336;
+  cursor: pointer;
+}
+
+/* Clear floats */
+.clearfix::after {
+  content: "";
+  clear: both;
+  display: table;
+}
+/* Styles for mobile phones */ 
+
+/* work on this one */
+
+/* 
+@media (min-width: 376px), (max-width:1024px){ 
+  h4 {
+    font-size: calc(0.7rem + 1vw) ;
+  }
+  .pagetop h1 {
+    font-size: calc(4rem);
+  }
+  #scratcher-box {
+    width: 20em;
+    height: 20em; 
+    top: 75%;
+  } 
+} */
+
+@media (min-width: 425px){ 
+  h3 {
+    font-size:calc(1.5rem + 0.5vw);
+  }
+  .pagetop h1 {
+    font-size: calc(4rem + 2vw);
+  }
+  #scratcher-box {
+    width: 22em;
+    height: 22em; 
+    top: 75%;
+  } 
+}
+ @media (max-width: 424px) {
+
+  .pagetop h1 {
+    font-size: calc(4rem + 1vw);
+  }
+ 
+  .pagetop h3 {
+    font-size: calc(1.5rem + 0.5vw);
+  }
+  #scratcher-box {
+    width: 21em;
+    height: 21em; 
+    top: 75%;
+  } 
+}  
+
+@media (min-width: 768px) and (min-height: 930px){ 
+  
+  .pagetop h3 {
+    font-size: calc(1.5rem + 1.2vw);
+  }
+  .pagetop h1 {
+    font-size: calc(5rem + 4vw);
+  }
+
+  #scratcher-box {
+    position:absolute;
+    width: 30em;
+    height: 30em; 
+    top: 75%;
+  } 
+  h4 {
+    font-size: 2vh;
+  }  
+  .modal-content {
+    width: 50%; /* Could be more or less, depending on screen size */
+  }
+}
+
+/* landscape tablet mode */
+@media (min-height: 675px) and (min-width: 1024px){ 
+  .pagetop h3 {
+    font-size: calc(1.5rem + 1.2vh);
+  } 
+  .pagetop h1 {
+    font-size: calc(5rem + 2vw);
+  }
+  h4 {
+    font-size: 2vh;
+  }
+  #surprise{
+    /*line-height: 15vh;*/
+    line-height: 1.2;
+  }
+  #scratcher-box {
+    position:absolute;
+    width: 28em;
+    height: 28em; 
+    top: 70%;
+  }
+  .modal-content {
+    width: 60%; /* Could be more or less, depending on screen size */
+  }
+}
+
+@media (max-width: 393px) {
+  h4 {
+    font-size: calc(0.7rem + 0.8vw) ;
+  }
+  .pagetop h1 {
+    font-size: calc(4rem);
+  }
+    .pagetop h3 {
+    font-size: calc(1.3rem + 0.5vw);
+  }
+
+  #scratcher-box {
+    position:absolute;
+    width: 20em;
+    height: 20em; 
+    top: 76%;
+  }
+  
+} 
+
+
+@media (max-width: 375px) {
+  h4 {
+    font-size: calc(0.7rem + 0.8vw) ;
+  }
+  .pagetop h1 {
+    font-size: calc(3rem + 3vw);
+  }
+    .pagetop h3 {
+    font-size: calc(1.3rem + 0.5vw);
+  }
+
+  #scratcher-box {
+    position:absolute;
+    width: 19em;
+    height: 19em; 
+    top: 76%;
+  }
+  
+} 
+
+@media (max-width: 320px) { 
+   .pagetop h1 {
+    font-size: calc(2rem + 4vw);
+  }
+  .pagetop h3 {
+    font-size: calc(1.2rem + 0.5vw);
+  }
+  h4 {
+    font-size: calc(0.6rem + 0.6vw) ;
+  }
+
+  #scratcher-box {
+    position:absolute;
+    width: 14em;
+    height: 14em; 
+    top: 75%;
+  }
+ 
+
+}
+#scratcher-box canvas {
+  cursor: grab;
+  }
+table { 
+  table-layout:fixed;
+  /**transform: translate(0%, 50%);
+  top: 75%;
+  left: 10%;*/
+}
+#scratcher1, #scratcher2, #scratcher3, #scratcher4, #scratcher5, #scratcher6, #scratcher7, #scratcher8, #scratcher9 {
+  width: 100%;
+  padding: 0px;
+  /* border: 1px;
+    border-color: #000000;
+    border-style: solid; */
+}
+
+#scratcher-bottom-margin {
+  display:block;
+  position: fixed;
+  text-align: right;
+  bottom: 1px;
+  right: 1px;
+  } 
+  .ui-widget-overlay
+  {
+    opacity: .80 !important; /* Make sure to change both of these, as IE only sees the second one */
+    filter: Alpha(Opacity=80) !important;
+  
+    background: rgb(50, 50, 50) !important; /* This will make it darker */
+  }
+#resetbutton {
+border: none;
+padding: 10px 20px;
+color: #FFFFFF;
+cursor: pointer;
+transition: all 200ms ease-in-out;
+transition-duration: 200ms;
+transition-timing-function: ease-in-out;
+transition-delay: 0s;
+border-radius:1cap;
+text-align: center;
+text-decoration: none;
+display:block;
+font-size: 2vh;
+margin: auto;
+}
+#resetbutton:hover {
+  color: #000000;
+  background-color: snow!important;
+}
+#baby{
+  font-weight: 600;
+}
+/* modal window styles */
+button {
+  background-color: #04AA6D;
+  color: white;
+  padding: 14px 20px;
+  margin: 8px 0;
+  border: none;
+  cursor: pointer;
+  width: 100%;
+  opacity: 0.9;
+}
+
+button:hover {
+  opacity:1;
+}
+
+/* Float cancel and delete buttons and add an equal width */
+.nosoundbtn, .withsoundbtn {
+  float: left;
+  width: 50%;
+  
+}
+
+/* Add a color to the cancel button */
+.nosoundbtn {
+  background-color: #ccc;
+  color: black;
+}
+
+/* Add a color to the delete button */
+.withsoundbtn {
+  background-color: #45a14d;
+}
+
+/* Add padding and center-align text to the container */
+.container {
+  padding: 16px;
+  text-align: center;
+}
+
+
+/* Change styles for cancel button and delete button on extra small screens */
+@media screen and (max-width: 360px) {
+  .nosoundbtn, .withsoundbtn {
+    font-size: 5vw; 
+    width: 100%;
+  }
+  h2{
+    font-size: 6vw;
+  }
+}
