@@ -83,6 +83,8 @@ Scratcher = (function() {
      * @param containslongw {boolean}
      * @param pixels
      * @param triggered {boolean}
+     * @param resized {boolean}
+
      */
     function Scratcher(canvasId, backImage, frontImage, cmessage) {
         this.canvas = {
@@ -124,6 +126,9 @@ Scratcher = (function() {
     };
     Scratcher.prototype.setShape = function(shape) {
         this.shape = shape;
+    };
+    Scratcher.prototype.setResized = function() {
+        this.resized = true;
     };
     /**
      * Returns how scratched the scratcher is
@@ -188,6 +193,10 @@ Scratcher = (function() {
         var can = this.canvas.draw;
         var ctx = can.getContext('2d', { willReadFrequently: true });
         
+        if (this.resized) {
+            this.dispatchEvent(this.createEvent('resized'));
+            this.resized = false;
+        }
         //can.getContext("2d", { willReadFrequently: true });
         ctx.lineWidth = 30;
         ctx.lineCap = ctx.lineJoin = 'round';

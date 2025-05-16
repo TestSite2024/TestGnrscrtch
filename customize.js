@@ -15,6 +15,8 @@ var canvas;
 var scratchers = [];
 var foregrnd;
 var iwidth,iheight;
+let isFirstLoad=true;
+
 (function() {
     /**
      * Returns true if this browser supports canvas
@@ -186,9 +188,12 @@ var iwidth,iheight;
         checkinprogress=true;
        
         setTimeout(function () {
-            if (iwidth==window.innerWidth && window.innerHeight<=iheight){
+            if (!isFirstLoad && iwidth==window.innerWidth && window.innerHeight<=iheight){
+                scratchers[0].setResized();
+                checkinprogress=false;
                 return;
             }
+            isFirstLoad=false;
             //console.log(iheight + " "+beforeheight);
             iwidth = window.innerWidth;
             iheight = window.innerHeight;
@@ -253,6 +258,7 @@ var iwidth,iheight;
 
     function initPage() {
         var i, i1;    
+        var scratcherLoadedCount = 0;          
         //$( "#dialog-message" ).hide();
         document.getElementsByTagName("body")[0].style.backgroundImage = 'url(images/back/Blue-Floral.jpg)';
         canvas = document.getElementById("scratcher1");
@@ -288,7 +294,6 @@ var iwidth,iheight;
         window.addEventListener("load", () => {
             document.querySelectorAll("input, textarea, select").forEach(input => {
             if (localStorage.getItem(input.id)) {
-                alert(localStorage.getItem(input.id));
                 input.value = localStorage.getItem(input.id);
             }
             });
@@ -302,8 +307,6 @@ var iwidth,iheight;
         });
         
         resizePanel();
-        fitCanvastoDiv();
-       
         $('.nosoundbtn').on("click", function (e) {
             //wholelink='./index.html' + "?" + params.toString(); // Test page
 
@@ -336,9 +339,23 @@ var iwidth,iheight;
             false,
           );
    
-        $('#resetbutton').on('click', function() {
+  // called each time a scratcher loads
+  function onScratcherLoaded(ev) {
+
+    scratcherLoadedCount++;
+    if (scratcherLoadedCount == scratchers.length) {
+        // all scratchers loaded!
+
+        // bind the reset button to reset all scratchers
+        $('#resetbutton').on('click', function () {
             onResetClicked();
         });
+        manageResizeOrientation();
+        // hide loading text, show instructions text
+        //$('#loading-text').hide();
+        //$('#inst-text').show();
+    }
+};       
         scratchers = new Array(1);
 
         const cmessage = {
@@ -355,7 +372,7 @@ var iwidth,iheight;
             scratchers[i] = new Scratcher('scratcher' + i1);
     
             // set up this listener before calling setImages():
-            //scratchers[i].addEventListener('imagesloaded', onScratcherLoaded);
+            scratchers[i].addEventListener('imagesloaded', onScratcherLoaded);
     
             scratchers[i].setImages('images/empty.jpg','images/fore/Goldeng.jpg');
             scratchers[i].setText(cmessage.message);
@@ -368,6 +385,7 @@ var iwidth,iheight;
         // of Scratcher.)
         //scratchers[3].addEventListener('reset', scratchersChanged);
         scratchers[0].addEventListener('scratchesended', scratcher1Changed);
+        scratchers[0].addEventListener('resized', fitCanvastoDiv);
         
          $(function() {
             $('body').add('#scracther1').on('click touchend', function(e) {
