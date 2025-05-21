@@ -711,7 +711,7 @@ let isFirstLoad=true;
             
             btn.on('click', async () => {
                 if (scratchers[0].getLW()) {
-                    display_dialog("Your message under scratch area contains words that are too long to fit in. \nPlease use shorter words or make sure you put space after punctuations. Please correct the error to continue.");   
+                    display_dialog("Your message under the scratch area overflows outside of the visible area. Please use shorter words or make sure you put space after punctuations. Please correct the error to continue.");   
                     return;
                 }
                 wholelink = "https://spoo.me/CuCxsQ";
