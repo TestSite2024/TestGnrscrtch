@@ -122,7 +122,7 @@ Scratcher = (function() {
         this.cmessage = cmessage;
     };
     Scratcher.prototype.getLW = function() {
-        return containslongw;
+        return this.containslongw;
     };
     Scratcher.prototype.setShape = function(shape) {
         this.shape = shape;
@@ -251,6 +251,8 @@ Scratcher = (function() {
         this.canvas.main.width = this.canvas.main.width; // resizing clears
         offCanvas.width = this.canvas.main.width; // resizing clears
         offCanvas.height = this.canvas.main.height; // resizing clears
+        offCanvas.top = this.canvas.main.top;
+        offCanvas.left = this.canvas.main.left;
 
         tempctx.save();
         tempctx.beginPath();
@@ -300,19 +302,19 @@ Scratcher = (function() {
         switch(this.shape) {
             case 'heart':
                 tempctx.font =  w/18 + "pt Calibri";
-                printAtWordWrap(offCanvas, tempctx,this.cmessage,w/2,h/3,w/15,w-30,9);
+                printAtWordWrap(this, offCanvas, tempctx,this.cmessage,w/2,h/3,w/15,w-30,9);
                 break;
             case 'square':
                 tempctx.font = w/15 + "pt Calibri";;
-                printAtWordWrap(offCanvas, tempctx,this.cmessage,w/2,h/3-h/15,w/12,w-40,1.5);                
+                printAtWordWrap(this, offCanvas, tempctx,this.cmessage,w/2,h/3-h/15,w/12,w-40,1.5);                
                 break;
             case 'circle':
                 tempctx.font = w/17 + "pt Calibri";;
-                printAtWordWrap(offCanvas, tempctx,this.cmessage,w/2,h/3,w/13,w-40,1.5);                
+                printAtWordWrap(this, offCanvas, tempctx,this.cmessage,w/2,h/3,w/13,w-40,1.5);                
                 break;
             default:
                 tempctx.font = w/17 + "pt Calibri";;
-                printAtWordWrap(offCanvas, tempctx,this.cmessage,w/2,h/3,w/13,w-40,1.5);                       
+                printAtWordWrap(this, offCanvas, tempctx,this.cmessage,w/2,h/3,w/13,w-40,1.5);                       
             }
         
         tempctx.clip();
@@ -356,91 +358,130 @@ Scratcher = (function() {
     function drawRect(context,x,y,width,height) {
         context.rect(x,y,width,height);
     }
-    function drawHeart(context, x, y, width, height){
+    function drawHeart(contextOrPath, x, y, width, height){
         let topCurveHeight = height * 0.3;
-        context.moveTo(x, y + topCurveHeight);
-        // top left curve
-
-   
-        context.bezierCurveTo(x, y, 
-                              x - width / 2, y, 
-                              x - width / 2, y + topCurveHeight
-         );
-        
-        // bottom left curve
-        context.bezierCurveTo(x - width / 2, y + (height + topCurveHeight) / 2, 
-                              x, y + (height + topCurveHeight) / 2, 
-                              x, y + height
-         );
-        
-        // bottom right curve
-        context.bezierCurveTo(x, y + (height + topCurveHeight) / 2, 
-                              x + width / 2, y + (height + topCurveHeight) / 2, 
-                              x + width / 2, y + topCurveHeight
-         );
-        
-        // top right curve
-        context.bezierCurveTo(x + width / 2, y, 
-                              x, y, 
-                              x, y + topCurveHeight
-         );
-        
-        
-
-    }
-    function printAtWordWrap( offCanvas, context , text, x, y, lineHeight, fitWidth,indent)
-{
-    fitWidth = fitWidth || 0;
-    //context.textAlign="center";
-    let offCtx = offCanvas.getContext("2d");
-
-    offCtx.font = context.font; // Copy font settings
-    offCtx.fillStyle = context.fillStyle; // Copy fill style
-    offCtx.textAlign = "center";
-    offCtx.textBaseline = "top"; 
-    var words = text.split(" ");
-    var currentLine = 0;
-    var idx = 1;
-    var lw = false;
-    var lwcount = 0;
-
-    for (let index = 0; index < words.length; index++) {
-        if (words[index].length > 9) {
-            lwcount++;
+        if (typeof contextOrPath.moveTo === 'function' && typeof contextOrPath.bezierCurveTo === 'function') {
+            // Works for both CanvasRenderingContext2D and Path2D
+            contextOrPath.moveTo(x, y + topCurveHeight);
+            contextOrPath.bezierCurveTo(x, y, x - width / 2, y, x - width / 2, y + topCurveHeight);
+            contextOrPath.bezierCurveTo(x - width / 2, y + (height + topCurveHeight) / 2, x, y + (height + topCurveHeight) / 2, x, y + height);
+            contextOrPath.bezierCurveTo(x, y + (height + topCurveHeight) / 2, x + width / 2, y + (height + topCurveHeight) / 2, x + width / 2, y + topCurveHeight);
+            contextOrPath.bezierCurveTo(x + width / 2, y, x, y, x, y + topCurveHeight);
         }
     }
-
-    while (words.length > 0 && idx <= words.length) {
-        var str = words.slice(0, idx).join(" ");
-        var st = words.slice(idx - 1, idx).join(" ");
-        var w = offCtx.measureText(str).width;
-
-        if (offCtx.measureText(st).width > fitWidth - (currentLine * Math.pow(indent, 1.55)) || (lwcount > 5 && currentLine > 5 && indent > 2)) {
-            this.containslongw = true;
-            lw = true;
-        }
-        if (w > fitWidth - (currentLine * Math.pow(indent, 1.55))) {
-            if (idx == 1) {
-                idx = 2;
+    function printAtWordWrap(scratcher, offCanvas, context, text, x, y, lineHeight, fitWidth, indent) {
+        // Use main canvas size for offscreen
+        offCanvas.width = context.canvas.width;
+        offCanvas.height = context.canvas.height;
+        let offCtx = offCanvas.getContext("2d");
+        offCtx.font = context.font;
+        offCtx.fillStyle = context.fillStyle;
+        offCtx.textAlign = "center";
+        offCtx.textBaseline = "top";
+        var words = text.split(" ");
+        var currentLine = 0;
+        var idx = 1;
+        var lines = [];
+        let lw = false;
+        let lwcount = 0;
+        for (let index = 0; index < words.length; index++) {
+            if (words[index].length > 8) {
+                lwcount++;
             }
-            offCtx.fillText(words.slice(0, idx - 1).join(" "), fitWidth / 2, lineHeight * currentLine);
-            currentLine++;
-            words = words.splice(idx - 1);
-            idx = 1;
-        } else {
-            idx++;
         }
+        while (words.length > 0 && idx <= words.length) {
+            var str = words.slice(0, idx).join(" ");
+            var w = offCtx.measureText(str).width;
+            if (w > fitWidth - (currentLine * Math.pow(indent, 1.55))) {
+                if (idx == 1) idx = 2;
+                let lineText = words.slice(0, idx - 1).join(" ");
+                lines.push(lineText);
+                offCtx.fillText(lineText, x, y + lineHeight * currentLine - lineHeight);
+                currentLine++;
+                words = words.splice(idx - 1);
+                idx = 1;
+            } else {
+                idx++;
+            }
+        }
+        if (idx > 0) {
+            lines.push(words.join(" "));
+            offCtx.fillText(words.join(" "), x, y + lineHeight * currentLine - lineHeight);
+        }
+        // --- Overflow detection and debug drawing ---
+        let overflow = false;
+        let canvasWidth = context.canvas.width;
+        let canvasHeight = context.canvas.height;
+        let shapePath = new Path2D();
+        let shape = scratcher && scratcher.shape ? scratcher.shape : this.shape;
+        switch (shape) {
+            case 'heart':
+                drawHeart(shapePath, canvasWidth / 2, 0, canvasWidth, canvasHeight);
+                break;
+            case 'square':
+                shapePath.rect(0, 0, canvasWidth, canvasHeight);
+                break;
+            case 'circle':
+                shapePath.arc(canvasWidth / 2, canvasHeight / 2, Math.min(canvasWidth, canvasHeight) / 2, 0, Math.PI * 2, true);
+                break;
+            default:
+                shapePath.arc(canvasWidth / 2, canvasHeight / 2, Math.min(canvasWidth, canvasHeight) / 2, 0, Math.PI * 2, true);
+        }
+        for (let i = 0; i < lines.length; i++) {
+            let metrics = offCtx.measureText(lines[i]);
+            let textWidth = metrics.width;
+            let textHeight = lineHeight;
+            let tx = x - fitWidth / 2 + fitWidth / 2 - textWidth / 2;
+            let ty = y - lineHeight + i * lineHeight;
+            // Four corners
+            let corners = [
+                [tx, ty],
+                [tx + textWidth, ty],
+                [tx, ty + textHeight],
+                [tx + textWidth, ty + textHeight]
+            ];
+            for (let c = 0; c < 4; c++) {
+                // Debug: draw red dot at each corner
+                // context.save();
+                // context.beginPath();
+                // context.arc(corners[c][0], corners[c][1], 3, 0, 2 * Math.PI);
+                // context.fillStyle = 'red';
+                // context.fill();
+                // context.restore();
+                // Check if inside shape
+                if (!context.isPointInPath(shapePath, corners[c][0], corners[c][1])) {
+                    if (scratcher) scratcher.containslongw = true;
+                    lw = true;
+                }
+            }
+        }
+        if (!lw) {
+            if (scratcher) scratcher.containslongw = false;
+        }
+        // Draw offscreen canvas as image
+        context.drawImage(offCanvas, 0, 0);
+
+        //--- Draw overflow detection shape path on main context for debug ---
+        // context.save();
+        // context.beginPath();
+        // switch (shape) {
+        //     case 'heart':
+        //         drawHeart(context, canvasWidth / 2, 0, canvasWidth, canvasHeight);
+        //         break;
+        //     case 'square':
+        //         context.rect(0, 0, canvasWidth, canvasHeight);
+        //         break;
+        //     case 'circle':
+        //         context.arc(canvasWidth / 2, canvasHeight / 2, Math.min(canvasWidth, canvasHeight) / 2, 0, Math.PI * 2, true);
+        //         break;
+        //     default:
+        //         context.arc(canvasWidth / 2, canvasHeight / 2, Math.min(canvasWidth, canvasHeight) / 2, 0, Math.PI * 2, true);
+        // }
+        // context.lineWidth = 2;
+        // context.strokeStyle = 'blue'; // Use a visible color
+        // context.stroke();
+        // context.restore();
     }
-    if (idx > 0) {
-        offCtx.fillText(words.join(" "), fitWidth / 2, lineHeight * currentLine);
-    }
-    if (!lw) {
-        this.containslongw = false;
-    }
-    //alert(lwcount+ " "+currentLine);
-     // Now draw this offscreen canvas as an image onto the main canvas
-     context.drawImage(offCanvas, x-fitWidth/2, y-lineHeight);
-}
   
    
     /**
@@ -740,5 +781,5 @@ Scratcher = (function() {
     return Scratcher;
     
     })();
-    
-    
+
+
